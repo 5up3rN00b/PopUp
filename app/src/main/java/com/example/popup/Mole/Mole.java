@@ -1,12 +1,12 @@
 package com.example.popup.Mole;
 
-public class Mole { //hah mole
+public class Mole {
     private Position p;
     private double side;
     private double duration;
     private boolean isHit;
 
-    public Mole() { //constructor
+    public Mole() {
 
     }
 
