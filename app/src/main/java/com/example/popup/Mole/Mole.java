@@ -6,7 +6,7 @@ public class Mole { //hah mole
     private double duration;
     private boolean isHit;
 
-    public Mole() {
+    public Mole() { //constructor
 
     }
 
