@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Desktop-PopUp.iml" filepath="$PROJECT_DIR$/../Desktop-PopUp.iml" group="PopUp" />
       <module fileurl="file://$PROJECT_DIR$/../PopUp.iml" filepath="$PROJECT_DIR$/../PopUp.iml" group="PopUp" />
+      <module fileurl="file://$PROJECT_DIR$/PopUp-app.iml" filepath="$PROJECT_DIR$/PopUp-app.iml" group="PopUp/app" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" group="PopUp/app" />
       <module fileurl="file://$PROJECT_DIR$/../haha-PopUp.iml" filepath="$PROJECT_DIR$/../haha-PopUp.iml" group="PopUp" />
       <module fileurl="file://$PROJECT_DIR$/haha-app.iml" filepath="$PROJECT_DIR$/haha-app.iml" group="PopUp/app" />
