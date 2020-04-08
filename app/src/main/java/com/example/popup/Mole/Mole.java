@@ -1,6 +1,6 @@
 package com.example.popup.Mole;
 
-public class Mole {
+public class Mole { //hah mole
     private Position p;
     private double side;
     private double duration;
