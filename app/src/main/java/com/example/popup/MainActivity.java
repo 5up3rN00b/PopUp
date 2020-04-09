@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private static FrameLayout mFrameLayout;
     private static Context context;
     private static WindowManager windowManager;
-    private static TextView mScore;
+    private static TextView mScore, mHighScore;
+    private static Timer gameTimer;
 
     private Button mButton;
     private ArrayList<Timer> timers = new ArrayList<>();
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnTouchListener touch = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
             int x = (int) event.getRawX();
             int y = (int) event.getRawY();
 
@@ -57,38 +57,43 @@ public class MainActivity extends AppCompatActivity {
         mFrameLayout = findViewById(R.id.layout);
         mView = findViewById(R.id.touchView);
         mScore = findViewById(R.id.score);
+        mHighScore = findViewById(R.id.highScore);
 
         context = getApplicationContext();
-
         windowManager = getWindowManager();
 
         mView.setOnTouchListener(touch);
 
-        scale = getResources().getDisplayMetrics().density;
-        mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
-
-        System.out.println(mGestureThreshold);
-
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Test if board has more moles than Board.getInstance().MAX_MOLES
-                while (true) {
-                    if (Board.getInstance().getMoles() < Board.getInstance().MAX_MOLES) {
-                        float logicalDensity = context.getResources().getDisplayMetrics().density;
-
-                        int width = context.getResources().getDisplayMetrics().widthPixels;
-                        int height = context.getResources().getDisplayMetrics().heightPixels;
-
-                        //System.out.println("Width " + width + " Height " + height);
-
-                        // Convert pixel to something (maybe dp)
-                        Mole m = new Mole((float) Math.random() * width * 2 / logicalDensity, (float) Math.random() * height * 2 / logicalDensity);
-                        Board.getInstance().addMole(m);
-                    }
+                for (int i = 0; i < Board.MAX_MOLES; i++) {
+                    generateMole();
                 }
+
+                gameTimer = new Timer();
+                gameTimer.schedule(new StopTask(), 5000);
+
+                mFrameLayout.removeView(mButton);
             }
         });
+    }
+
+    public static void generateMole() {
+        float logicalDensity = context.getResources().getDisplayMetrics().density;
+
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        int height = context.getResources().getDisplayMetrics().heightPixels;
+
+        double randX = -100;
+        double randY = -100;
+        while (Board.getInstance().overlap((int) randX, (int) randY)) {
+            randX = Math.random() * width;
+            randY = Math.random() * (height - 70) + 70;
+        }
+
+        Mole m = new Mole((float) randX * 2 / logicalDensity, (float) randY * 2 / logicalDensity);
+        Board.getInstance().addMole(m);
     }
 
     public static FrameLayout getFrameLayout() {
@@ -105,5 +110,24 @@ public class MainActivity extends AppCompatActivity {
 
     public static TextView getScore() {
         return mScore;
+    }
+
+    public static TextView getHighScore() {
+        return mHighScore;
+    }
+
+    class StopTask extends TimerTask {
+        public void run() {
+            Board.getInstance().resetBoard();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mFrameLayout.addView(mButton);
+                }
+            });
+
+            gameTimer.cancel();
+        }
     }
 }

@@ -2,16 +2,19 @@ package com.example.popup;
 
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.popup.Mole.*;
 
 import java.util.*;
 
 
-public class Board {
-    private static int score;
+public class Board extends AppCompatActivity {
+    private static int score, highScore = 0;
     private static ArrayList<Mole> moles;
     private static Board b = null;
-    public static final int MAX_MOLES = 10;
+    public static boolean RESETTING = false;
+    public static final int MAX_MOLES = 6;
 
     private Board() {
         moles = new ArrayList<Mole>();
@@ -54,11 +57,46 @@ public class Board {
             if (m.isHit()) {
                 score++;
                 moles.remove(i);
-                m.death();
+                m.death(true);
 
                 MainActivity.getScore().setText("Score: " + score);
             }
         }
+    }
+
+    public boolean overlap(int x, int y) {
+        for (int i = 0; i < moles.size(); i++) {
+            Mole m = moles.get(i);
+
+            if (Math.abs(m.getPos().getConvertedX() - x) < m.getSide() * 2 && Math.abs(m.getPos().getConvertedY() - y) <= m.getSide() * 2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void resetBoard() {
+        RESETTING = true;
+
+        for (int i = 0; i < moles.size(); i++) {
+            moles.get(i).death(false);
+            i--;
+        }
+
+        if (score > highScore) {
+            highScore = score;
+        }
+
+        score = 0;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity.getScore().setText("Score: " + score);
+                MainActivity.getHighScore().setText("High Score: " + highScore);
+            }
+        });
     }
 
     public void addMole(Mole m) {

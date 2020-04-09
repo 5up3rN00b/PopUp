@@ -36,7 +36,7 @@ public class Mole extends AppCompatActivity {
         birth();
 
         timer = new Timer();
-        timer.schedule(new MoleTask(), 10000);
+        timer.schedule(new MoleTask(), 5000);
     }
 
     public void birth() {
@@ -59,12 +59,19 @@ public class Mole extends AppCompatActivity {
         });
     }
 
-    public void death() {
+    public void death(final boolean notReset) {
         Board.getInstance().removeMole(this);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 layout.removeView(img);
+
+                if (notReset) {
+                    if (Board.getInstance().getMoles() <= Board.MAX_MOLES) {
+                        MainActivity.generateMole();
+                    }
+                }
             }
         });
     }
@@ -91,7 +98,7 @@ public class Mole extends AppCompatActivity {
 
     class MoleTask extends TimerTask {
         public void run() {
-            death();
+            death(!Board.RESETTING);
             timer.cancel();
         }
     }
