@@ -72,16 +72,21 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float logicalDensity = context.getResources().getDisplayMetrics().density;
+                // Test if board has more moles than Board.getInstance().MAX_MOLES
+                while (true) {
+                    if (Board.getInstance().getMoles() < Board.getInstance().MAX_MOLES) {
+                        float logicalDensity = context.getResources().getDisplayMetrics().density;
 
-                int width = context.getResources().getDisplayMetrics().widthPixels;
-                int height = context.getResources().getDisplayMetrics().heightPixels;
+                        int width = context.getResources().getDisplayMetrics().widthPixels;
+                        int height = context.getResources().getDisplayMetrics().heightPixels;
 
-                //System.out.println("Width " + width + " Height " + height);
+                        //System.out.println("Width " + width + " Height " + height);
 
-                // Convert pixel to something (maybe dp)
-                Mole m = new Mole((float) Math.random() * width * 2 / logicalDensity, (float) Math.random() * height * 2 / logicalDensity);
-                Board.getInstance().addMole(m);
+                        // Convert pixel to something (maybe dp)
+                        Mole m = new Mole((float) Math.random() * width * 2 / logicalDensity, (float) Math.random() * height * 2 / logicalDensity);
+                        Board.getInstance().addMole(m);
+                    }
+                }
             }
         });
     }

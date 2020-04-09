@@ -11,6 +11,7 @@ public class Board {
     private static int score;
     private static ArrayList<Mole> moles;
     private static Board b = null;
+    public static final int MAX_MOLES = 10;
 
     private Board() {
         moles = new ArrayList<Mole>();
@@ -22,6 +23,10 @@ public class Board {
         }
 
         return b;
+    }
+
+    public int getMoles() {
+        return moles.size();
     }
 
     public void timedBirth() {
