@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.*;
 import android.widget.RelativeLayout.*;
 
-import com.example.popup.Mole.Mole;
+import com.example.popup.Mole.*;
 
 import java.sql.Time;
 import java.util.*;
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private static FrameLayout mFrameLayout;
     private static Context context;
     private static WindowManager windowManager;
+    private static TextView mScore;
+
     private Button mButton;
     private ArrayList<Timer> timers = new ArrayList<>();
     private View mView;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mButton = findViewById(R.id.btn);
         mFrameLayout = findViewById(R.id.layout);
         mView = findViewById(R.id.touchView);
+        mScore = findViewById(R.id.score);
 
         context = getApplicationContext();
 
@@ -69,17 +72,15 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                float logicalDensity = displayMetrics.density;
+                float logicalDensity = context.getResources().getDisplayMetrics().density;
 
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
+                int width = context.getResources().getDisplayMetrics().widthPixels;
+                int height = context.getResources().getDisplayMetrics().heightPixels;
 
-                System.out.println("Width " + width + " Height " + height);
+                //System.out.println("Width " + width + " Height " + height);
 
                 // Convert pixel to something (maybe dp)
-                Mole m = new Mole((float) Math.random() * ((float) width * 160 / 120), (float) Math.random() * ((float) height * 160 / 120));
+                Mole m = new Mole((float) Math.random() * width * 2 / logicalDensity, (float) Math.random() * height * 2 / logicalDensity);
                 Board.getInstance().addMole(m);
             }
         });
@@ -95,5 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static WindowManager getManager() {
         return windowManager;
+    }
+
+    public static TextView getScore() {
+        return mScore;
     }
 }

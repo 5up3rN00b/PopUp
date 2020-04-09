@@ -13,9 +13,7 @@ public class Position {
         this.x = x;
         this.y = y;
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        MainActivity.getManager().getDefaultDisplay().getMetrics(displayMetrics);
-        logicalDensity = displayMetrics.density;
+        logicalDensity = MainActivity.getContext().getResources().getDisplayMetrics().density;
     }
 
     public float getX() {
@@ -28,11 +26,11 @@ public class Position {
 
     // Two accessor methods that convert from the something in MainActivity to pixels
     public int getConvertedX() {
-        return (int) (x * logicalDensity + 0.5f);
+        return (int) (x * logicalDensity / 2);
     }
 
     public int getConvertedY() {
-        return (int) (y * logicalDensity + 0.5f);
+        return (int) (y * logicalDensity / 2);
     }
 }
 

@@ -1,12 +1,14 @@
 package com.example.popup;
 
+import android.widget.TextView;
+
 import com.example.popup.Mole.*;
 
 import java.util.*;
 
 
 public class Board {
-    private static int numMoles, score;
+    private static int score;
     private static ArrayList<Mole> moles;
     private static Board b = null;
 
@@ -31,9 +33,9 @@ public class Board {
         for (int i = 0; i < moles.size(); i++) {
             Mole m = moles.get(i);
 
-            System.out.println("X " + m.getPos().getConvertedX() + " Y " + m.getPos().getConvertedY() + " Real X " + x + " Real Y " + y);
+            //System.out.println("X " + m.getPos().getConvertedX() + " Y " + m.getPos().getConvertedY() + " Real X " + x + " Real Y " + y);
 
-            if (Math.abs(m.getPos().getConvertedX() - x) < m.getSide() && Math.abs(m.getPos().getConvertedY() - y) <= m.getSide()) {
+            if (Math.abs(m.getPos().getConvertedX() - x) < m.getSide() * 2 && Math.abs(m.getPos().getConvertedY() - y) <= m.getSide() * 2) {
                 m.hit();
             }
         }
@@ -46,9 +48,10 @@ public class Board {
             Mole m = moles.get(i);
             if (m.isHit()) {
                 score++;
-                m.death();
                 moles.remove(i);
-                //i--;
+                m.death();
+
+                MainActivity.getScore().setText("Score: " + score);
             }
         }
     }

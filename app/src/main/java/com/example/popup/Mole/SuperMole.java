@@ -8,10 +8,11 @@ public class SuperMole extends Mole {
         lives = 2;
     }
 
-    public void death() {// decrease life by 1 everytime it's clicked
+    public void hit() {
         lives--;
-        if (lives == 0){
-            super.death();
+
+        if (lives == 0) {
+            super.hit();
         }
     }
 }
