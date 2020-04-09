@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import com.example.popup.Board;
 import com.example.popup.MainActivity;
 import com.example.popup.R;
 
@@ -19,7 +20,8 @@ public class Mole extends AppCompatActivity {
 
     private Timer timer;
 
-    private static double side = 40, duration = 30;
+    private static double duration = 30;
+    private static int side = 100;
 
     private FrameLayout layout;
 
@@ -34,7 +36,7 @@ public class Mole extends AppCompatActivity {
         birth();
 
         timer = new Timer();
-        timer.schedule(new MoleTask(), 1000);
+        timer.schedule(new MoleTask(), 10000);
     }
 
     public void birth() {
@@ -42,8 +44,8 @@ public class Mole extends AppCompatActivity {
         img.setImageResource(R.drawable.mole);
 
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.width = 100;
-        lp.height = 100;
+        lp.width = side;
+        lp.height = side;
         img.setLayoutParams(lp);
 
         img.setX(p.getX());
@@ -58,8 +60,7 @@ public class Mole extends AppCompatActivity {
     }
 
     public void death() {
-        System.out.println("hi");
-
+        Board.getInstance().removeMole(this);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -68,11 +69,15 @@ public class Mole extends AppCompatActivity {
         });
     }
 
+    public void hit() {
+        isHit = true;
+    }
+
     public Position getPos() {
         return p;
     }
 
-    public double getSide() {
+    public int getSide() {
         return side;
     }
 

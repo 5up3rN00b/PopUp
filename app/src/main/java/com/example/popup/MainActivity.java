@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import android.widget.RelativeLayout.*;
 
@@ -23,20 +24,23 @@ public class MainActivity extends AppCompatActivity {
 
     private static FrameLayout mFrameLayout;
     private static Context context;
+    private static WindowManager windowManager;
     private Button mButton;
     private ArrayList<Timer> timers = new ArrayList<>();
     private View mView;
 
+    private static final float GESTURE_THRESHOLD_DP = 16.0f;
+    float scale;
+    int mGestureThreshold;
+
     private View.OnTouchListener touch = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            System.out.println("hi");
 
             int x = (int) event.getRawX();
             int y = (int) event.getRawY();
 
-            System.out.println(x);
-            System.out.println(y);
+            Board.getInstance().click(x, y);
 
             return true;
         }
@@ -53,7 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
+        windowManager = getWindowManager();
+
         mView.setOnTouchListener(touch);
+
+        scale = getResources().getDisplayMetrics().density;
+        mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
+
+        System.out.println(mGestureThreshold);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
                 int width = displayMetrics.widthPixels;
                 int height = displayMetrics.heightPixels;
-                Mole m = new Mole((float) Math.random() * width, (float) Math.random() * height);
+
+                System.out.println("Width " + width + " Height " + height);
+
+                // Convert pixel to something (maybe dp)
+                Mole m = new Mole((float) Math.random() * ((float) width * 160 / 120), (float) Math.random() * ((float) height * 160 / 120));
+                Board.getInstance().addMole(m);
             }
         });
     }
@@ -75,5 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static WindowManager getManager() {
+        return windowManager;
     }
 }
