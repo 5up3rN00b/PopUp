@@ -20,6 +20,8 @@ import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+// BUG: DOES NOT RESET ALL MOLES IN THE FIRST LOOP
+
 public class MainActivity extends AppCompatActivity {
 
     private static FrameLayout mFrameLayout;
@@ -29,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private static Timer gameTimer;
 
     private Button mButton;
-    private ArrayList<Timer> timers = new ArrayList<>();
+    //private ArrayList<Timer> timers = new ArrayList<>();
     private View mView;
 
-    private static final float GESTURE_THRESHOLD_DP = 16.0f;
-    float scale;
-    int mGestureThreshold;
+//    private static final float GESTURE_THRESHOLD_DP = 16.0f;
+//    float scale;
+//    int mGestureThreshold;
 
     private View.OnTouchListener touch = new View.OnTouchListener() {
         @Override
