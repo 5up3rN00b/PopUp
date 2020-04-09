@@ -1,5 +1,18 @@
 package com.example.popup.Mole;
 
 public class Position {
-    private double x, y;
+    private float x, y;
+
+    public Position(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }
